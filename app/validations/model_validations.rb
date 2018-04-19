@@ -1,6 +1,9 @@
 require 'dry-validation'
 
 module ModelValidations
+  def self.validate_to_complete_scheduling(hash)
+
+  end
 
   def self.validate_to_submit_for_scheduling(hash)
     schema = Dry::Validation.Form do
@@ -15,8 +18,9 @@ module ModelValidations
       required(:requested_times).filled
       required(:topics).filled
 
-      rule(class_sections: [:course_related, :class_sections]) do |course_related, class_sections|
+      rule(class_sections_maybe: [:course_related, :class_sections]) do |course_related, class_sections|
         course_related.true?.then class_sections.filled?
+        course_related.false?.then class_sections.none?
       end
     end
     schema.call(hash)

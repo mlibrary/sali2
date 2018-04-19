@@ -42,6 +42,13 @@
 # Request.  Later, details about the session might change, but there's
 # no need to update the Session Request once it is scheduled.
 #
+# Auth:
+#
+# create a request: a known user
+# edit a request: creator or role of instructor or higher
+# submit a request: creator
+# schedule a session:  ??
+#
 class SessionRequest
   attr_accessor :requested_by, :title, :contact_person, :accommodations, :expected_attendance,
                 :library_location_needed, :evaluation_needed, :registration_needed, :requested_times, :topics,
@@ -78,6 +85,8 @@ class SessionRequest
       }
     end
   end
+
+
 
   def submitted
     result = ModelValidations.validate_to_submit_for_scheduling(to_h)
