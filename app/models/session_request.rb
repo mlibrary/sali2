@@ -49,7 +49,7 @@
 # submit a request: creator
 # schedule a session:  ??
 #
-class SessionRequest
+class SessionRequest < ApplicationRecord
   attr_accessor :requested_by, :title, :contact_person, :accommodations, :expected_attendance,
                 :library_location_needed, :evaluation_needed, :registration_needed, :requested_times, :topics,
                 :course_related
@@ -89,13 +89,7 @@ class SessionRequest
 
 
   def submitted
-    result = ModelValidations.validate_to_submit_for_scheduling(to_h)
-    if result.failure?
-      # report errors
-    else
-      @state = 'requested'
-    end
-
+    @state = 'requested'
   end
 
   def draft?

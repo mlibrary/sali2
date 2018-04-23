@@ -1,6 +1,6 @@
 # spec/models/session_request_spec.rb
 
-require 'spec_helper'
+require 'rails_helper'
 
 require_relative '../../app/models/session_request'
 require_relative '../../app/models/academic_term'
@@ -162,84 +162,11 @@ describe SessionRequest do
       SessionRequest.new attribute_hash
     end
 
-    context "when all required attributes have been provided" do
-      it "changes the state to 'requested'" do
-        session_request.submitted
-        expect(session_request.state).to eq 'requested'
-      end
+    it "changes the state to 'requested'" do
+      session_request.submitted
+      expect(session_request.state).to eq 'requested'
     end
 
-    context "when there is no title" do
-      before{ attribute_hash[:title] = nil }
-      it "does not change the state of the SessionRequest object" do
-        session_request.submitted
-        expect(session_request.draft?).to be true
-      end
-    end
-
-    context "when there is no requested_by" do
-      before{ attribute_hash[:requested_by] = nil }
-      it "does not change the state of the SessionRequest object" do
-        session_request.submitted
-        expect(session_request.draft?).to be true
-      end
-    end
-
-    context "when there is no contact_person" do
-      before{ attribute_hash[:contact_person] = nil }
-      it "does not change the state of the SessionRequest object" do
-        session_request.submitted
-        expect(session_request.draft?).to be true
-      end
-    end
-
-    context "when there is no expected_attendance" do
-      before{ attribute_hash[:expected_attendance] = nil }
-      it "does not change the state of the SessionRequest object" do
-        session_request.submitted
-        expect(session_request.draft?).to be true
-      end
-    end
-
-    context "when there is no library_location_needed" do
-      before{ attribute_hash[:library_location_needed] = nil }
-      it "does not change the state of the SessionRequest object" do
-        session_request.submitted
-        expect(session_request.draft?).to be true
-      end
-    end
-
-    context "when there is no evaluation_needed" do
-      before{ attribute_hash[:evaluation_needed] = nil }
-      it "does not change the state of the SessionRequest object" do
-        session_request.submitted
-        expect(session_request.draft?).to be true
-      end
-    end
-
-    context "when there is no registration_needed" do
-      before{ attribute_hash[:registration_needed] = nil }
-      it "does not change the state of the SessionRequest object" do
-        session_request.submitted
-        expect(session_request.draft?).to be true
-      end
-    end
-
-    context "when there are no topics" do
-      before{ attribute_hash[:topics] = nil }
-      it "does not change the state of the SessionRequest object" do
-        session_request.submitted
-        expect(session_request.draft?).to be true
-      end
-    end
-
-    context "when there is no course_related" do
-      before{ attribute_hash[:course_related] = nil }
-      it "does not change the state of the SessionRequest object" do
-        session_request.submitted
-        expect(session_request.draft?).to be true
-      end
-    end
   end
 
 end

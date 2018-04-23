@@ -5,6 +5,7 @@ module ModelValidations
 
   end
 
+  # TODO: move to SessionRequest class
   def self.validate_to_submit_for_scheduling(hash)
     schema = Dry::Validation.Form do
       required(:title).filled
@@ -25,6 +26,7 @@ module ModelValidations
     end
     schema.call(hash)
   end
+
   def self.validate_to_complete_scheduling(hash)
     schema = Dry::Validation.Form do
       required(:title).filled
