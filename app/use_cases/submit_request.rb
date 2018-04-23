@@ -17,7 +17,6 @@ class SubmitRequest
 
       # call SessionRequest#submitted
       request.submitted if @result.success?
-
     end
   end
 

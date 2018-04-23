@@ -1,6 +1,6 @@
 # spec/models/session_request_spec.rb
 
-require 'rails_helper'
+require_relative '../rails_helper'
 
 require_relative '../../app/models/session_request'
 require_relative '../../app/models/academic_term'
@@ -50,7 +50,7 @@ require_relative '../../app/models/time_range'
 # Request.  Later, details about the session might change, but there's
 # no need to update the Session Request once it is scheduled.
 #
-describe SessionRequest do
+RSpec.describe SessionRequest do
 
   describe "#new" do
     let(:attribute_hash) do

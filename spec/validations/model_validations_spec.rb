@@ -1,12 +1,12 @@
 # spec/models/session_request_spec.rb
 
-require 'spec_helper'
+require_relative '../spec_helper'
 
 # require_relative '../../app/models/academic_term'
 # require_relative '../../app/models/time_range'
 require_relative '../../app/validations/model_validations'
 
-describe ModelValidations do
+RSpec.describe ModelValidations do
   describe '#validate_to_complete_scheduling' do
 
   end

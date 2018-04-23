@@ -1,10 +1,10 @@
 # spec/models/time_range_spec.rb
 
-require 'spec_helper'
+require_relative '../spec_helper'
 
 require_relative '../../app/models/time_range'
 
-describe TimeRange do
+RSpec.describe TimeRange do
 
   describe "#new" do
     it "accepts three strings representing a date and two times of day as parameters" do

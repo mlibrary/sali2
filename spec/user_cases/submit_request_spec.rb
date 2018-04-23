@@ -1,90 +1,17 @@
 # spec/models/session_request_spec.rb
 
-require 'rails_helper'
+require_relative '../rails_helper'
+require_relative '../spec_helper'
 
 require_relative('../../app/use_cases/submit_request')
 
 RSpec.describe SubmitRequest do
 
-  # context "when there is no title" do
-  #   before{ attribute_hash[:title] = nil }
-  #   it "does not change the state of the SessionRequest object" do
-  #     session_request.submitted
-  #     expect(session_request.draft?).to be true
-  #   end
-  # end
-  #
-  # context "when there is no requested_by" do
-  #   before{ attribute_hash[:requested_by] = nil }
-  #   it "does not change the state of the SessionRequest object" do
-  #     session_request.submitted
-  #     expect(session_request.draft?).to be true
-  #   end
-  # end
-  #
-  # context "when there is no contact_person" do
-  #   before{ attribute_hash[:contact_person] = nil }
-  #   it "does not change the state of the SessionRequest object" do
-  #     session_request.submitted
-  #     expect(session_request.draft?).to be true
-  #   end
-  # end
-  #
-  # context "when there is no expected_attendance" do
-  #   before{ attribute_hash[:expected_attendance] = nil }
-  #   it "does not change the state of the SessionRequest object" do
-  #     session_request.submitted
-  #     expect(session_request.draft?).to be true
-  #   end
-  # end
-  #
-  # context "when there is no library_location_needed" do
-  #   before{ attribute_hash[:library_location_needed] = nil }
-  #   it "does not change the state of the SessionRequest object" do
-  #     session_request.submitted
-  #     expect(session_request.draft?).to be true
-  #   end
-  # end
-  #
-  # context "when there is no evaluation_needed" do
-  #   before{ attribute_hash[:evaluation_needed] = nil }
-  #   it "does not change the state of the SessionRequest object" do
-  #     session_request.submitted
-  #     expect(session_request.draft?).to be true
-  #   end
-  # end
-  #
-  # context "when there is no registration_needed" do
-  #   before{ attribute_hash[:registration_needed] = nil }
-  #   it "does not change the state of the SessionRequest object" do
-  #     session_request.submitted
-  #     expect(session_request.draft?).to be true
-  #   end
-  # end
-  #
-  # context "when there are no topics" do
-  #   before{ attribute_hash[:topics] = nil }
-  #   it "does not change the state of the SessionRequest object" do
-  #     session_request.submitted
-  #     expect(session_request.draft?).to be true
-  #   end
-  # end
-  #
-  # context "when there is no course_related" do
-  #   before{ attribute_hash[:course_related] = nil }
-  #   it "does not change the state of the SessionRequest object" do
-  #     session_request.submitted
-  #     expect(session_request.draft?).to be true
-  #   end
-  # end
-
   let(:user) {
-    double(User, {
-
-    })
+    double(User)
   }
   let(:persistence) {
-    class_double(SessionRequest, {
+    class_double("SessionRequest", {
         find: session_request
     })
   }
@@ -95,7 +22,7 @@ RSpec.describe SubmitRequest do
   describe "#call" do
     context "where request is valid for submit and was created by user" do
       let(:session_request) {
-        double(SessionRequest, {
+        double("SessionRequest", {
             to_h: {
                 requested_by: user,
                 contact_person: user,
@@ -138,10 +65,10 @@ RSpec.describe SubmitRequest do
 
   context "where request is valid for submit and was not created by user" do
     let(:another_user) {
-      double("user")
+      double("User")
     }
     let(:session_request) {
-      double(SessionRequest, {
+      double("SessionRequest", {
           to_h: {
               requested_by: another_user,
               contact_person: user,

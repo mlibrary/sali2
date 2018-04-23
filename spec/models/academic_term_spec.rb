@@ -1,10 +1,10 @@
 # spec/models/academic_term_spec.rb
 
-require 'spec_helper'
+require_relative '../spec_helper'
 
 require_relative '../../app/models/academic_term'
 
-describe AcademicTerm do
+RSpec.describe AcademicTerm do
 
   describe "#new" do
     it "accepts a string as a parameter representing a term and year" do
