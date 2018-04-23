@@ -10,13 +10,15 @@ class SubmitRequest
     request = @persistence_class.find(@request_id)
 
     # check checkpoint policies
-    #
+    policy = SubmitRequestPolicy.new(@user, request)
+    if policy.allowed?
+      # check validations
+      @result = ModelValidations.validate_to_submit_for_scheduling(request.to_h)
 
-    # check validations
-    @result = ModelValidations.validate_to_submit_for_scheduling(request.to_h)
+      # call SessionRequest#submitted
+      request.submitted if @result.success?
 
-    # call SessionRequest#submitted
-    request.submitted if @result.success?
+    end
   end
 
   def errors
@@ -32,6 +34,5 @@ class SubmitRequest
     raise Exception() unless @result
     @result.failure?
   end
-
 
 end

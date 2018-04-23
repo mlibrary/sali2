@@ -78,57 +78,93 @@ RSpec.describe SubmitRequest do
   #   end
   # end
 
-  describe "#call" do
-    let(:user) {
-      double(User, {
+  let(:user) {
+    double(User, {
 
-      })
-    }
-    let(:persistence) {
-      class_double(SessionRequest, {
-          find: session_request
-      })
-    }
-    let(:submit_request) {
-      SubmitRequest.new(user, 1, persistence_class: persistence)
-    }
-    context "valid for submit" do
+    })
+  }
+  let(:persistence) {
+    class_double(SessionRequest, {
+        find: session_request
+    })
+  }
+  let(:submit_request) {
+    SubmitRequest.new(user, 1, persistence_class: persistence)
+  }
+
+  describe "#call" do
+    context "where request is valid for submit and was created by user" do
       let(:session_request) {
         double(SessionRequest, {
-          to_h: {
-            requested_by: "botimer",
-            contact_person: "jimeng",
-            title: 'title',
-            expected_attendance: 30,
-            course_related: true,
-            accommodations: "Please provide materials in low contrast for one attendee.",
-            library_location_needed: false,
-            evaluation_needed: true,
-            registration_needed: false,
-            topics: [1, 4, 9, 16],
-            requested_times: [
-                TimeRange.new("2018-04-10", "13:30", "15:45"),
-                TimeRange.new("2018-04-17", "13:30", "15:45")
-            ]
-          }
+            to_h: {
+                requested_by: user,
+                contact_person: user,
+                title: 'title',
+                expected_attendance: 30,
+                course_related: true,
+                accommodations: "Please provide materials in low contrast for one attendee.",
+                library_location_needed: false,
+                evaluation_needed: true,
+                registration_needed: false,
+                topics: [1, 4, 9, 16],
+                requested_times: [
+                    TimeRange.new("2018-04-10", "13:30", "15:45"),
+                    TimeRange.new("2018-04-17", "13:30", "15:45")
+                ]
+            },
+            requested_by: user
         })
       }
-      it "calls the submitted method on the seesion request" do
+      it "calls the submitted method on the session request" do
         expect(session_request).to receive :submitted
         submit_request.call
       end
     end
 
-    context "invalid for submit" do
+    context "where request is not valid for submit but was created by user" do
       let(:session_request) {
-        double(SessionRequest, to_h: {})
+        double(SessionRequest, {
+            to_h: {},
+            requested_by: user
+        })
       }
-      it "avoids calling the submitted method on session request" do
+      it "does not call the #submitted method on session request" do
         expect(session_request).not_to receive :submitted
         submit_request.call
       end
     end
 
+  end
+
+  context "where request is valid for submit and was not created by user" do
+    let(:another_user) {
+      double("user")
+    }
+    let(:session_request) {
+      double(SessionRequest, {
+          to_h: {
+              requested_by: another_user,
+              contact_person: user,
+              title: 'title',
+              expected_attendance: 30,
+              course_related: true,
+              accommodations: "Please provide materials in low contrast for one attendee.",
+              library_location_needed: false,
+              evaluation_needed: true,
+              registration_needed: false,
+              topics: [1, 4, 9, 16],
+              requested_times: [
+                  TimeRange.new("2018-04-10", "13:30", "15:45"),
+                  TimeRange.new("2018-04-17", "13:30", "15:45")
+              ]
+          },
+          requested_by: another_user
+      })
+    }
+    it "does not call the #submitted method on the session request" do
+      expect(session_request).not_to receive :submitted
+      submit_request.call
+    end
   end
 
 end
