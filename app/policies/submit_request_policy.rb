@@ -9,4 +9,8 @@ class SubmitRequestPolicy
   def allowed?
     resource.requested_by == user
   end
+
+  def authorize!(action, message = nil)
+    raise NotAuthorizedError.new(message) unless send(action)
+  end
 end

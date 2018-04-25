@@ -52,7 +52,7 @@
 class SessionRequest < ApplicationRecord
   attr_accessor :requested_by, :title, :contact_person, :accommodations, :expected_attendance,
                 :library_location_needed, :evaluation_needed, :registration_needed, :requested_times, :topics,
-                :course_related
+                :course_related, :class_sections
   attr_reader :state
 
   def initialize(attribute_hash = {})
@@ -67,26 +67,19 @@ class SessionRequest < ApplicationRecord
     self.evaluation_needed        = attribute_hash[:evaluation_needed]
     self.registration_needed      = attribute_hash[:registration_needed]
     if attribute_hash.has_key?(:requested_times) && ! attribute_hash[:requested_times].nil?
-      self.requested_times = []
-      attribute_hash[:requested_times].each {|value|
+      self.requested_times = attribute_hash[:requested_times]&.map do |value|
         if value.date && value.start_time && value.end_time
-          self.requested_times << TimeRange.new(
+          TimeRange.new(
               value.date.strftime("%Y-%m-%d"),
               value.start_time.strftime("%I:%M%p"),
               value.end_time.strftime("%I:%M%p")
           )
         end
-      }
+      end.compact
     end
-    if attribute_hash.has_key?(:topics) && ! attribute_hash[:topics].nil?
-      self.topics = []
-      attribute_hash[:topics].each {|value|
-        self.topics << value
-      }
-    end
+    self.topics = attribute_hash[:topics]&.dup
+    self.class_sections = attribute_hash[:class_sections]&.dup
   end
-
-
 
   def submitted
     @state = 'requested'
@@ -108,8 +101,9 @@ class SessionRequest < ApplicationRecord
       evaluation_needed: evaluation_needed,
       registration_needed: registration_needed,
       requested_times: requested_times,
-      topics: topics
+      topics: topics,
+      class_sections: class_sections,
+      state: state
     }
-
   end
 end
