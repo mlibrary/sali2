@@ -2,6 +2,8 @@ require 'dry-validation'
 
 
 class SubmitRequest
+  attr_reader :user, :request_id
+
   def initialize(user, request_id, persistence_class: SessionRequest)
     @user = user
     @request_id = request_id
