@@ -87,3 +87,22 @@ RSpec.configure do |config|
   Kernel.srand config.seed
 =end
 end
+
+def typical_session_request_attributes(override_values={})
+  {
+      requested_by: nil,
+      contact_person: nil,
+      title: 'title',
+      expected_attendance: 30,
+      course_related: true,
+      accommodations: "Please provide materials in low contrast for one attendee.",
+      library_location_needed: false,
+      evaluation_needed: true,
+      registration_needed: false,
+      topics: [1, 4, 9, 16],
+      requested_times: [
+          TimeRange.new("2018-04-10", "13:30", "15:45"),
+          TimeRange.new("2018-04-17", "13:30", "15:45")
+      ]
+  }.merge override_values
+end

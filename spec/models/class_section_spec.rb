@@ -1,10 +1,10 @@
 # spec/models/class_section_spec.rb
 
-require 'spec_helper'
+require_relative '../spec_helper'
 
 require_relative '../../app/models/class_section'
 
-describe ClassSection do
+RSpec.describe ClassSection do
   describe "#new" do
     it "accepts four parameters representing a term, subject, course number and section number" do
       expect { ClassSection.new("FA 2018", "CHEM", "325", "001") }.not_to raise_error
