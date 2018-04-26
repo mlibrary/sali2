@@ -79,10 +79,10 @@ RSpec.describe SubmitRequestPolicy do
       end
     end
 
-    # context "with other actions" do
-    #   it "raises an exception" do
-    #     expect{ policy.authorize!('woopee!') }.to raise_error(NotAuthorizedError)
-    #   end
-    # end
+    context "with other actions" do
+      it "raises an exception" do
+        expect{ policy.authorize!('woopee!') }.to raise_error(NotAuthorizedError)
+      end
+    end
   end
 end
