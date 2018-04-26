@@ -69,19 +69,19 @@ RSpec.describe SubmitRequestPolicy do
 
     context "with action of 'user'" do
       it "does not raise an exception" do
-        expect{ policy.authorize!('user') }.not_to raise_exception
+        expect{ policy.authorize!(:user) }.not_to raise_exception
       end
     end
 
     context "with action of 'resource'" do
       it "does not raise an exception" do
-        expect{ policy.authorize!('resource') }.not_to raise_exception
+        expect{ policy.authorize!(:resource) }.not_to raise_exception
       end
     end
 
     context "with other actions" do
       it "raises an exception" do
-        expect{ policy.authorize!('woopee!') }.to raise_error(NotAuthorizedError)
+        expect{ policy.authorize!(:woopee!) }.to raise_error(NotAuthorizedError)
       end
     end
   end
