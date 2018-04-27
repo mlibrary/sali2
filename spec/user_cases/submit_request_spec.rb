@@ -1,6 +1,5 @@
-# spec/models/session_request_spec.rb
+# spec/use_cases/submit_request_spec.rb
 
-# require_relative '../rails_helper'
 require_relative '../spec_helper'
 
 require_relative('../../app/use_cases/submit_request')
@@ -58,9 +57,9 @@ RSpec.describe SubmitRequest do
           requested_by: another_user
       })
     }
-    it "does not call the #submitted method on the session request" do
+    it "throws an exception instead of calling the 'submitted' method on the session_request" do
       expect(session_request).not_to receive :submitted
-      submit_request.call
+      expect{ submit_request.call }.to raise_error(NotAuthorizedError)
     end
   end
 
@@ -74,8 +73,14 @@ RSpec.describe SubmitRequest do
     let (:session_request) do
       SessionRequest.new attribute_hash
     end
+    let(:persistence) {
+      class_double('SessionRequest', {
+        find: session_request
+      })
+    }
+
     let(:operation) do
-      SubmitRequest.new(user, 1)
+      SubmitRequest.new(user, 1, persistence_class: persistence)
     end
     let(:result) do
       operation.validate(session_request)
@@ -200,41 +205,43 @@ RSpec.describe SubmitRequest do
       end
     end
 
-    # describe "#class_sections" do
-    #   context "with course_related false" do
-    #     before { session_request.course_related = false }
-    #     context "and class_sections not empty" do
-    #       before { session_request.class_sections = [
-    #          "EECS 280 001", "HISTORY 325 001"
-    #       ]}
-    #       it "reports failure" do
-    #         expect(result.success?).to be false
-    #       end
-    #     end
-    #     context "and class_sections empty" do
-    #       before { session_request.class_sections = [] }
-    #       it "reports success" do
-    #         expect(result.success?).to be true
-    #       end
-    #     end
-    #   end
-    #   context "with course_related true" do
-    #     before { session_request.course_related = true }
-    #     context "and class_sections not empty" do
-    #       before { session_request.class_sections = [
-    #           "EECS 280 001", "HISTORY 325 001"
-    #       ]}
-    #       it "reports success" do
-    #         expect(result.success?).to be true
-    #       end
-    #     end
-    #     context "and class_sections empty" do
-    #       before { session_request.class_sections = [] }
-    #       it "reports failure" do
-    #         expect(result.success?).to be false
-    #       end
-    #     end
-    #   end
-    # end
+    describe "#class_sections" do
+      context "with course_related false" do
+        before { session_request.course_related = false }
+
+        context "and class_sections not empty" do
+          before { session_request.class_sections = [
+             "EECS 280 001", "HISTORY 325 001"
+          ]}
+          it "reports failure" do
+            expect(result.success?).to be false
+          end
+        end
+        context "and class_sections empty" do
+          before { session_request.class_sections = [] }
+          it "reports success" do
+            expect(result.success?).to be true
+          end
+        end
+      end
+      context "with course_related true" do
+        before { session_request.course_related = true }
+
+        context "and class_sections not empty" do
+          before { session_request.class_sections = [
+              "EECS 280 001", "HISTORY 325 001"
+          ]}
+          it "reports success" do
+            expect(result.success?).to be true
+          end
+        end
+        context "and class_sections empty" do
+          before { session_request.class_sections = [] }
+          it "reports failure" do
+            expect(result.success?).to be false
+          end
+        end
+      end
+    end
   end
 end

@@ -60,28 +60,34 @@ RSpec.describe SubmitRequestPolicy do
     let(:user) {
       double("User")
     }
-    let(:resource) {
-      double("SubmitRequest")
-    }
     let(:policy) {
       SubmitRequestPolicy.new(user, resource)
     }
 
-    context "with action of 'user'" do
+    context "with user authorized to take action" do
+      let(:resource) {
+        double("SubmitRequest", {
+            requested_by: user
+        })
+      }
       it "does not raise an exception" do
-        expect{ policy.authorize!(:user) }.not_to raise_exception
+
+        expect{ policy.authorize!(:allowed?) }.not_to raise_exception
       end
     end
 
-    context "with action of 'resource'" do
-      it "does not raise an exception" do
-        expect{ policy.authorize!(:resource) }.not_to raise_exception
-      end
-    end
+    context "with user not authorized to take action" do
+      let(:another_user) {
 
-    context "with other actions" do
+      }
+      let(:resource) {
+        double("SubmitRequest", {
+            requested_by: another_user
+        })
+      }
       it "raises an exception" do
-        expect{ policy.authorize!(:woopee!) }.to raise_error(NotAuthorizedError)
+
+        expect{ policy.authorize!(:allowed?) }.to raise_error(NotAuthorizedError)
       end
     end
   end

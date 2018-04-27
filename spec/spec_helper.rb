@@ -103,6 +103,9 @@ def typical_session_request_attributes(override_values={})
       requested_times: [
           TimeRange.new("2018-04-10", "13:30", "15:45"),
           TimeRange.new("2018-04-17", "13:30", "15:45")
+      ],
+      class_sections: [
+          'class section 1', 'class section 2'
       ]
   }.merge override_values
 end

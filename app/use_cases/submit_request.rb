@@ -16,13 +16,13 @@ class SubmitRequest
 
     # check checkpoint policies
     policy = SubmitRequestPolicy.new(@user, request)
-    if policy.allowed?
-      # check validations
-      @result = validate(request)
+    policy.authorize! :allowed?
 
-      # call SessionRequest#submitted
-      request.submitted if @result.success?
-    end
+    # check validations
+    @result = validate(request)
+
+    # call SessionRequest#submitted
+    request.submitted if @result.success?
   end
 
   def errors
@@ -53,13 +53,15 @@ class SubmitRequest
       required(:registration_needed).filled
       required(:requested_times).filled
       required(:topics).filled
+      required(:class_sections).maybe(:array?)
 
-      # TODO: add spec for this rule
-      rule(class_sections_maybe: [:course_related, :class_sections]) do |course_related, class_sections|
-        course_related.false? > (class_sections.nil? | class_sections.empty?)
+      rule(class_sections_empty_when_not_course_related: [:course_related, :class_sections]) do |course_related, class_sections|
+        course_related.false? > (class_sections.nil?.or(class_sections.empty?))
+      end
+      rule(class_sections_filled_when_course_related: [:course_related, :class_sections]) do |course_related, class_sections|
         course_related.true? > (class_sections.filled?)
       end
-    end
+     end
 
     schema.call(request.to_h)
   end

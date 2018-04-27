@@ -11,6 +11,6 @@ class SubmitRequestPolicy
   end
 
   def authorize!(action, message = nil)
-    raise NotAuthorizedError.new(message) unless respond_to?(action)
+    raise NotAuthorizedError.new(message) unless send action
   end
 end

@@ -15,7 +15,9 @@ RSpec.describe CreateRequest do
     })
   }
   describe "#new" do
-    it "accepts parameters "
+    it "accepts parameters to create a SessionRequest object and identify its creator" do
+      expect{ CreateRequest.new(user, attribute_hash) }.not_to raise_error
+    end
   end
 
 end

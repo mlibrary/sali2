@@ -1,3 +1,3 @@
-class NotAuthorizedError < Exception
+class NotAuthorizedError < StandardError
 
 end
