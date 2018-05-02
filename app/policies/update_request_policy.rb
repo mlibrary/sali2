@@ -1,6 +1,6 @@
-# app/models/policies/submit_request_policy.rb
+# app/models/policies/update_request_policy.rb
 
-class SubmitRequestPolicy
+class UpdateRequestPolicy
   attr_reader :user, :resource
   def initialize(user, resource)
     @user = user
@@ -8,7 +8,10 @@ class SubmitRequestPolicy
   end
 
   def allowed?
-    resource.requested_by == user
+    resource.requested_by == user ||
+        user.has_role?('instructor') ||
+        user.has_role?('scheduler') ||
+        user.has_role?('admin')
   end
 
   def authorize!(action, message = nil)

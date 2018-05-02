@@ -1,3 +1,5 @@
+# app/models/use_cases/set_instructor.rb
+
 class SetInstructor
   def initialize(user, request_id, instructor_id, scheduled_time: nil, persistence_class: SessionRequest)
 

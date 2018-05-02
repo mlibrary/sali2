@@ -1,3 +1,5 @@
+# app/models/use_cases/set_room.rb
+
 class SetRoom
   def initialize(user, request_id, room_id, scheduled_time: nil, persistence_class: SessionRequest)
 

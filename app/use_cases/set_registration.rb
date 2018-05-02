@@ -1,3 +1,5 @@
+# app/models/use_cases/set_registration.rb
+
 class SetRegistration
   def initialize(user, request_id, registration_info={}, persistence_class: SessionRequest)
 

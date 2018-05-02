@@ -1,5 +1,6 @@
-require 'dry-validation'
+# app/models/use_cases/submit_request.rb
 
+require 'dry-validation'
 
 class SubmitRequest
   attr_reader :user, :request_id

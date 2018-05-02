@@ -12,6 +12,23 @@
 
 ActiveRecord::Schema.define(version: 20180419015711) do
 
+  create_table "checkpoint_schema", id: false, force: :cascade do |t|
+    t.integer "version", default: 0, null: false
+  end
+
+  create_table "permits", force: :cascade do |t|
+    t.string "agent_type", limit: 100, null: false
+    t.string "agent_id", limit: 100, null: false
+    t.string "agent_token", limit: 201, null: false
+    t.string "credential_type", limit: 100, null: false
+    t.string "credential_id", limit: 100, null: false
+    t.string "credential_token", limit: 201, null: false
+    t.string "resource_type", limit: 100, null: false
+    t.string "resource_id", limit: 100, null: false
+    t.string "resource_token", limit: 201, null: false
+    t.string "zone_id", limit: 100, null: false
+  end
+
   create_table "session_requests", force: :cascade do |t|
     t.integer "requested_by_id"
     t.integer "contact_person_id"
@@ -35,15 +52,8 @@ ActiveRecord::Schema.define(version: 20180419015711) do
     t.string "firstname"
     t.string "lastname"
     t.string "role"
-    t.string "calendar_url"
-    t.string "access_token"
-    t.string "refresh_token"
-    t.string "records_per_page"
     t.string "unit"
-    t.string "crypted_password"
-    t.string "salt"
     t.boolean "active"
-    t.boolean "notify_new_request"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["uniqname"], name: "index_users_on_uniqname"
