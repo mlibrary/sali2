@@ -1,3 +1,5 @@
+# app/models/use_cases/create_request.rb
+
 class CreateRequest
   def initialize(user, attribute_hash, persistence_class: SessionRequest)
     @user = user

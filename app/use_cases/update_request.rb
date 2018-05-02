@@ -1,3 +1,5 @@
+# app/models/use_cases/update_request.rb
+
 class UpdateRequest
   def initialize(user, request_id, changes={}, persistence_class: SessionRequest)
 

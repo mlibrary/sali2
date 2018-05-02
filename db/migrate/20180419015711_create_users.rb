@@ -5,15 +5,8 @@ class CreateUsers < ActiveRecord::Migration[5.1]
       t.string :firstname
       t.string :lastname
       t.string :role
-      t.string :calendar_url
-      t.string :access_token
-      t.string :refresh_token
-      t.string :records_per_page
       t.string :unit
-      t.string :crypted_password
-      t.string :salt
       t.boolean :active
-      t.boolean :notify_new_request
 
       t.timestamps
     end
