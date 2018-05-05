@@ -52,7 +52,7 @@
 class SessionRequest < ApplicationRecord
   attr_accessor :requested_by, :title, :contact_person, :accommodations, :expected_attendance,
                 :library_location_needed, :evaluation_needed, :registration_needed, :requested_times, :topics,
-                :course_related, :class_sections
+                :course_related, :class_sections, :location, :scheduled_time
   attr_reader :state
 
   def initialize(attribute_hash = {})
@@ -79,6 +79,8 @@ class SessionRequest < ApplicationRecord
     end
     self.topics = attribute_hash[:topics]&.dup
     self.class_sections = attribute_hash[:class_sections]&.dup
+    self.location = attribute_hash[:location]
+    self.scheduled_time = attribute_hash[:scheduled_time]
   end
 
   def submitted
