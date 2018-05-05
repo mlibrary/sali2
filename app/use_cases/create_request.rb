@@ -14,6 +14,6 @@ class CreateRequest
   end
 
   def validate
-
+    # title, requested_by, contact_person
   end
 end
